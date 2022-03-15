@@ -375,7 +375,7 @@ div.fm-group-label-wrapper {
 }
 
 .fmjs-drag-icon {
-	position: absolute;
+	position: relative;
 	top: 0;
 	bottom: 0;
 	left: 0;

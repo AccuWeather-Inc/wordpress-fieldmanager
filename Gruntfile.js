@@ -17,21 +17,21 @@ module.exports = function( grunt ) {
 			},
 			latest: {
 				options: {
-					urls: ['http://localhost:8000/tests/js/index.html']
+					urls: ['http://localhost:8011/tests/js/index.html']
 				}
 			},
 			recent: {
 				options: {
 					urls: [
-						'http://localhost:8000/tests/js/index.html',
-						'http://localhost:8000/tests/js/index.html?wp=4.9',
-						'http://localhost:8000/tests/js/index.html?wp=4.8'
+						'http://localhost:8011/tests/js/index.html',
+						'http://localhost:8011/tests/js/index.html?wp=4.9',
+						'http://localhost:8011/tests/js/index.html?wp=4.8'
 					]
 				}
 			},
 			specific: {
 				options: {
-					urls: [ 'http://localhost:8000/tests/js/index.html?wp=' + grunt.option( 'wp' ) ]
+					urls: [ 'http://localhost:8011/tests/js/index.html?wp=' + grunt.option( 'wp' ) ]
 				}
 			}
 		},

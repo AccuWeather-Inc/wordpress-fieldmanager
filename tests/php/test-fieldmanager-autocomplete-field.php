@@ -7,6 +7,33 @@
  * @group autocomplete
  */
 class Test_Fieldmanager_Autocomplete_Field extends WP_UnitTestCase {
+	/**
+	 * The post ID of the test post.
+	 *
+	 * @var int
+	 */
+	private int $post_id = 0;
+
+	/**
+	 * The post object of the test post.
+	 *
+	 * @var WP_Post
+	 */
+	private WP_Post $post;
+
+	/**
+	 * The data posts array.
+	 *
+	 * @var WP_Post[]
+	 */
+	private array $data_posts;
+
+	/**
+	 * Custom data source.
+	 *
+	 * @var Fieldmanager_Datasource
+	 */
+	private Fieldmanager_Datasource $custom_datasource;
 
 	public function set_up() {
 		parent::set_up();
@@ -116,5 +143,32 @@ class Test_Fieldmanager_Autocomplete_Field extends WP_UnitTestCase {
 		$items = $datasource->get_items_for_ajax( "Arby's" );
 
 		$this->assertSame( 1, count( $items ) );
+	}
+
+	/**
+	 * Test that an autocomplete field with an extra element is output correctly.
+	 */
+	public function test_exact_match_with_no_default_and_extra_element() {
+		$args = array(
+			'name'          => 'test_autocomplete_with_extra_element',
+			'datasource'                => new Fieldmanager_Datasource_Term(
+				[
+					'taxonomy'              => 'post_tag',
+					'append_taxonomy'       => false,
+					'only_save_to_taxonomy' => true,
+				]
+			),
+			'exact_match'               => true,
+			'remove_default_meta_boxes' => true,
+			'limit'                     => 1,
+			'extra_elements'            => 1,
+			'add_more_label'            => 'Add Tag',
+		);
+
+		$fm = new Fieldmanager_Autocomplete( $args );
+		ob_start();
+		$fm->add_meta_box( 'Test Autocomplete', 'post' )->render_meta_box( $this->post, array() );
+		$html = ob_get_clean();
+		$this->assertStringContainsString( 'fm-test_autocomplete_with_extra_element-0', $html );
 	}
 }

@@ -65,8 +65,8 @@ class Fieldmanager_Autocomplete extends Fieldmanager_Field {
 	 *
 	 * @throws FM_Developer_Exception Must use a datasource.
 	 *
-	 * @param string $label   The label.
-	 * @param array  $options The options for the field.
+	 * @param string|array $label   The field label. A provided string sets $options['label'], while an array sets $options, overriding any existing data in $options.
+	 * @param array        $options The field options.
 	 */
 	public function __construct( $label = '', $options = array() ) {
 		$this->attributes = array(
@@ -131,6 +131,9 @@ class Fieldmanager_Autocomplete extends Fieldmanager_Field {
 			$this->attributes['data-options'] = htmlspecialchars( wp_json_encode( $this->datasource->get_items() ) );
 		}
 
+		if ( is_array( $value ) && empty( $value ) ) {
+			$value = '';
+		}
 		$display_value = $this->datasource->get_value( $value );
 		if ( '' === $display_value && ! $this->exact_match && ! isset( $this->datasource->options[ $value ] ) ) {
 			$display_value = $value;
